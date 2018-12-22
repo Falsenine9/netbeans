@@ -9,6 +9,10 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="checkCountry.jsp" />
 <%
+    /*
+    DONE BY : ADAM (1749171)
+    */
+    
     String sku = request.getParameter("sku");
     if (sku == null) {
 %>
@@ -30,7 +34,37 @@
             List<StoreEntity> storesInCountry = (List<StoreEntity>) session.getAttribute("storesInCountry");
             List<Furniture> furnitures = (List<Furniture>) (session.getAttribute("furnitures"));
             /*define your variables here*/
-            /*set your variables here*/
+            
+         
+            String price = "";
+            String description = "";
+            int length = 0;
+            int width = 0;
+            int height  = 0;
+            String img = "";
+            String cat = "";
+            String cat2 = "";
+           
+                try {
+                    if (furnitures != null) {
+                        for (int i = 0; i < furnitures.size(); i++) {
+                            if (furnitures.get(i).getSKU().equals(sku)) {
+                                description = furnitures.get(i).getDescription();
+                                length = furnitures.get(i).getLength();
+                                width = furnitures.get(i).getWidth();
+                                height = furnitures.get(i).getHeight();
+                                price = String.format("%.2f",furnitures.get(i).getPrice());
+                                img = furnitures.get(i).getImageUrl();
+                                cat = furnitures.get(i).getCategory();
+                                
+                            }
+                        }
+                    }
+                    cat2 = cat.replace(" & ", "+%26+");
+                    
+                } catch (Exception ex) {
+                    System.out.println(ex);
+                }
         %>
         <div class="body">
             <jsp:include page="menu2.jsp" />
@@ -51,13 +85,13 @@
                             <div class="col-md-6">
                                 <div>
                                     <div class="thumbnail">
-                                        <img alt="" class="img-responsive img-rounded" src="../../..<%/*insert code here*/%>">
+                                        <img alt="" class="img-responsive img-rounded" src="../../..<%=img%>">
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="summary entry-summary">
-                                    <h2 class="shorter"><strong>Insert category name</strong></h2>
+                                    <h2 class="shorter"><strong><%=cat%></strong></h2>
                                     <%
                                         if (isMemberLoggedIn == true) {
                                     %>
@@ -69,22 +103,25 @@
                                         <input type="hidden" name="imageURL" value="<%/*insert code here*/%>"/>
                                         <input type="submit" name="btnEdit" class="btn btn-primary" id="<%/*insert code here*/%>" value="Add To Cart"/>
                                     </form>
-                                    <%}%>
-                                    <p class="price"><h4 class="amount"><%/*insert code here*/%></h4></p>
+                                    <%}
+                                        
+                                    %>
+                                    <p class="price"><h4 class="amount"><%= "$" + price%></h4></p>
                                     <strong>Description</strong>
                                     <p class="taller">
-                                        <%/*insert code here*/%>
+                                        <%=description%>
                                     </p>
                                     <p>
-                                        Height: <%/*insert code here*/%><br/>
-                                        Length: <%/*insert code here*/%><br/>
-                                        Width: <%/*insert code here*/%>
+                                        Height: <%=height%><br/>
+                                        Length: <%=length%><br/>
+                                        Width: <%=width%>
                                     </p>
                                     <div class="product_meta">
-                                        <span class="posted_in">Category: <a rel="tag" href="../../ECommerce_FurnitureCategoryServlet?cat=<%/*insert code here*/%>"><%/*insert code here*/%></a></span>
+                                        <span class="posted_in">Category: <a rel="tag" href="../../ECommerce_FurnitureCategoryServlet?cat=<%=cat2%>"><%=cat%></a></span>
                                     </div>
                                     <br/><br/>
-
+                                    <% 
+                                        %>
                                     <div class="row">
                                         <div class="col-md-4">
                                             <form action="../../ECommerce_StockAvailability">

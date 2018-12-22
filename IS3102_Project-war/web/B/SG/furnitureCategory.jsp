@@ -2,10 +2,16 @@
 <%@page import="HelperClasses.Furniture"%>
 <%@page import="java.net.URLDecoder"%>
 <%@page import="java.util.List"%>
+<%@page import="java.sql.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="checkCountry.jsp" />
 <%
+    /*
+    DONE BY : LIM SHI HAN (1728080)
+    */
+    
     Boolean isMemberLoggedIn = false;
+    int index =0;
     String memberEmail = (String) (session.getAttribute("memberEmail"));
     if (memberEmail == null) {
         isMemberLoggedIn = false;
@@ -48,28 +54,30 @@
                             <ul class="products product-thumb-info-list" data-plugin-masonry>
                                 <%
                                     try {
-                                        /**
-                                         * *insert code here**
-                                         */
+                                        if(furnitures != null){
+                                    for(int i = 0; i < furnitures.size(); i++){
                                 %>
                                 <li class="col-md-3 col-sm-6 col-xs-12 product">
                                     <span class="product-thumb-info">
                                         <span class="product-thumb-info-image">
-                                            <img alt="" class="img-responsive" src="../../..<%=furnitures.get(0).getImageUrl()%>">
+                                            <img alt="" class="img-responsive" src="../../..<%=furnitures.get(i).getImageUrl()%>">
                                         </span>
 
                                         <span class="product-thumb-info-content">
-                                            <h4><%=furnitures.get(0).getName()%></h4>
-                                            <span class="product-thumb-info-act-left"><em>Height: <%=furnitures.get(0).getHeight()%></em></span><br/>
-                                            <span class="product-thumb-info-act-left"><em>Length: <%=furnitures.get(0).getLength()%></em></span><br/>
-                                            <span class="product-thumb-info-act-left"><em>Width: <%=furnitures.get(0).getWidth()%></em></span><br/>
-                                            <span class="product-thumb-info-act-left"><em>Price: $<%=furnitures.get(0).getPrice()%>0</em></span>
+                                            <h4><%=furnitures.get(i).getName()%></h4>
+                                            <span class="product-thumb-info-act-left"><em>Height: <%=furnitures.get(i).getHeight()%></em></span><br/>
+                                            <span class="product-thumb-info-act-left"><em>Length: <%=furnitures.get(i).getLength()%></em></span><br/>
+                                            <span class="product-thumb-info-act-left"><em>Width: <%=furnitures.get(i).getWidth()%></em></span><br/>
+                                            <span class="product-thumb-info-act-left"><em>Price: $<%=furnitures.get(i).getPrice()%>0</em></span>
                                             <br/>
                                             <form action="furnitureProductDetails.jsp">
-                                                <input type="hidden" name="sku" value="<%=furnitures.get(0).getSKU()%>"/>
+                                                <input type="hidden" name="sku" value="<%=furnitures.get(i).getSKU()%>"/>
                                                 <input type="submit" class="btn btn-primary btn-block" value="More Details"/>
                                             </form>
                                             <%
+                                             }
+                                                                                                                                }                 
+                                           
                                                 if (isMemberLoggedIn == true) {
                                             %>
                                             <form action="../../ECommerce_AddFurnitureToListServlet">
