@@ -16,6 +16,26 @@ public class Member {
     private String securityAnswer;
     private Integer age;
     private Integer income;
+    
+    public Member () {
+        
+    };
+    
+    public Member(Long id, String phone, String address, String city, int securityQuestion, String securityAnswer, int age, 
+            int income, String name, String email, int loyaltyPoints, double cumulativeSpending) {
+        this.id = id;
+        this.phone = phone;
+        this.address = address;
+        this.city = city;
+        this.securityQuestion = securityQuestion;
+        this.securityAnswer = securityAnswer;
+        this.age = age;
+        this.income = income;
+        this.name = name;
+        this.email = email;
+        this.loyaltyPoints = loyaltyPoints;
+        this.cumulativeSpending = cumulativeSpending;
+    }
 
     public Long getId() {
         return id;
