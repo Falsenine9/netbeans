@@ -20,7 +20,6 @@ public class Member {
     public Member () {
         
     };
-    //
     
     public Member(Long id, String phone, String address, String city, int securityQuestion, String securityAnswer, int age, 
             int income, String name, String email, int loyaltyPoints, double cumulativeSpending) {
@@ -37,6 +36,7 @@ public class Member {
         this.loyaltyPoints = loyaltyPoints;
         this.cumulativeSpending = cumulativeSpending;
     }
+
 
     public Long getId() {
         return id;
