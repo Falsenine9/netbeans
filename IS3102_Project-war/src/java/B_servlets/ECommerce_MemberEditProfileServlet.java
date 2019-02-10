@@ -5,9 +5,11 @@
  */
 package B_servlets;
 
+import CommonInfrastructure.AccountManagement.AccountManagementBeanLocal;
 import HelperClasses.Member;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -69,10 +71,14 @@ public class ECommerce_MemberEditProfileServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    @EJB
+    private AccountManagementBeanLocal accountManagementBean;
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
+        
         Client client = ClientBuilder.newClient();
            HttpSession session = request.getSession();
            String email = (String)session.getAttribute("memberEmail");
@@ -84,6 +90,8 @@ public class ECommerce_MemberEditProfileServlet extends HttpServlet {
            String securityAnswer = request.getParameter("securityAnswer");
            int age = Integer.parseInt(request.getParameter("age"));
            int income = Integer.parseInt(request.getParameter("income"));
+           String password = request.getParameter("password");
+           String repassword = request.getParameter("repassword");
            
            WebTarget target = client.target("http://localhost:8080/IS3102_WebService-Student/webresources/getAndUpdateMember")
                    .path("updateProfile")
@@ -96,6 +104,11 @@ public class ECommerce_MemberEditProfileServlet extends HttpServlet {
                    .queryParam("securityAnswer", securityAnswer)
                    .queryParam("age",age)
                    .queryParam("income",income);
+           
+           if((!password.equals("") && !repassword.equals("")) && (password.equals(repassword))){
+                accountManagementBean.resetMemberPassword(email, password);
+                System.out.println("Changed password");
+            }
                  Invocation.Builder invocationBuilder = target.request(MediaType.APPLICATION_JSON);
                  Response res = invocationBuilder.post(null);
         //System.out.println("status: " + response.getStatus());
