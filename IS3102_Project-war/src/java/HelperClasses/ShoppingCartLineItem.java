@@ -18,6 +18,17 @@ public class ShoppingCartLineItem{
         this.quantity = 0;
         this.countryID = 0;
     }
+    
+    
+     public ShoppingCartLineItem(String id, String SKU, String name, String imageUrl, double price, int quantity, Long countryId) {
+        this.id=id;
+        this.SKU = SKU;
+        this.name = name;
+        this.imageURL = imageUrl;
+        this.price = price;
+        this.quantity = quantity;
+        this.countryID = countryId;
+    }
 
     public String getId() {
         return id;
